@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Resolves a date to a day of the week"/>
+    <meta name="author" content="Tsepo Maleka"/>
+
+    <title>Strudent Portal</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" />
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+</h:head>
+<h:body>
+    <div class="container">
+
+        <h2>Student Registration </h2>
+        <div class="panel panel-primary">
+            <div class="panel-heading">Registration Form</div>
+            <div class="panel-body">
+
+                <h:form id="studentRegistrationForm">
+                    <div class="form-group">
+                        <p:messages>
+                            <p:autoUpdate />
+                        </p:messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="idField">Id</label>
+                        <h:inputText id="idField" styleClass="form-control" autocomplete="off" maxlength="9" value="#{personRegistrationBean.personId}" required="true" >
+                            <p:clientValidator event="keyup"/>
+                        </h:inputText>
+                        <p:message for="idField" display="icon" />
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nameField">name</label>
+                        <h:inputText id="nameField" styleClass="form-control" autocomplete="off" maxlength="20" value="#{personRegistrationBean.name}" required="true" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="surnameField">surname</label>
+                        <h:inputText id="surnameField" styleClass="form-control" autocomplete="off" maxlength="20" value="#{personRegistrationBean.surname}" required="true" />
+                    </div>
+
+
+                    <div class="form-group">
+                        <p:outputLabel for="mobileNumberField" value="Mobile Number:" />
+                        <p:inputMask id="mobileNumberField" styleClass="form-control" value="#{personRegistrationBean.mobileNumber}" required="true" mask="(999) 999-9999"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cityField">City:</label>
+                        <p:selectOneMenu id="cityField" value="#{personRegistrationBean.cityId}" required="true" >
+                            <p:ajax listener="#{personRegistrationBean.onCityChange}" update="districtField" />
+                            <f:selectItem itemLabel="Select Country" itemValue="" noSelectionOption="false" />
+                            <f:selectItems value="#{personRegistrationBean.cities}" />
+                        </p:selectOneMenu>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="districtField">District:</label>
+                        <p:selectOneMenu id="districtField" value="#{personRegistrationBean.districtId}" required="true" >
+                            <f:selectItem itemLabel="Select District" itemValue="" noSelectionOption="false" />
+                            <f:selectItems value="#{personRegistrationBean.districts}" />
+                    </p:selectOneMenu>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="explanationField">Explanation:</label>
+                        <p:inputTextarea class="form-control" id="explanationField" maxlength="160" rows="6" cols="33" required="true" value="#{personRegistrationBean.explanation}" />
+                    </div>
+
+                    <h:commandButton type="submit" value="Submit" styleClass="btn btn-primary" action="#{personRegistrationAction.savePerson}" />
+
+                </h:form>
+
+
+            </div>
+        </div>
+
+    </div>
+
+    <hr />
+    <div class="container">
+        <h2> Student List</h2>
+    </div>
+
+
+</h:body>
+
+</html>
