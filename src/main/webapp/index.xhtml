@@ -64,7 +64,7 @@
 
                     <div class="form-group">
                         <label for="cityField">City:</label>
-                        <p:selectOneMenu id="cityField" value="#{personRegistrationBean.cityId}" required="true" >
+                        <p:selectOneMenu id="cityField" value="#{personRegistrationBean.cityName}" required="true" >
                             <p:ajax listener="#{personRegistrationBean.onCityChange}" update="districtField" />
                             <f:selectItem itemLabel="Select Country" itemValue="" noSelectionOption="false" />
                             <f:selectItems value="#{personRegistrationBean.cities}" />
@@ -73,7 +73,7 @@
 
                     <div class="form-group">
                         <label for="districtField">District:</label>
-                        <p:selectOneMenu id="districtField" value="#{personRegistrationBean.districtId}" required="true" >
+                        <p:selectOneMenu id="districtField" value="#{personRegistrationBean.districtName}" required="true" >
                             <f:selectItem itemLabel="Select District" itemValue="" noSelectionOption="false" />
                             <f:selectItems value="#{personRegistrationBean.districts}" />
                     </p:selectOneMenu>
@@ -97,6 +97,34 @@
     <hr />
     <div class="container">
         <h2> Student List</h2>
+
+        <h:form id="form">
+
+            <p:dataTable var="person" value="#{personRegistrationBean.personList}">
+                <p:column headerText="Id">
+                    <h:outputText value="#{person.personId}" />
+                </p:column>
+
+                <p:column headerText="Name">
+                    <h:outputText value="#{person.name}" />
+                </p:column>
+
+                <p:column headerText="Surname">
+                    <h:outputText value="#{person.surname}" />
+                </p:column>
+
+                <p:column headerText="MobileNumber">
+                    <h:outputText value="#{person.mobileNumber}" />
+                </p:column>
+                <p:column headerText="City">
+                    <h:outputText value="#{person.cityName}" />
+                </p:column>
+                <p:column headerText="District">
+                    <h:outputText value="#{person.districtName}" />
+                </p:column>
+            </p:dataTable>
+
+        </h:form>
     </div>
 
 

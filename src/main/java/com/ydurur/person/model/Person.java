@@ -15,8 +15,8 @@ public class Person {
     private String name;
     private String surname;
     private String mobileNumber;
-    private Integer cityId;
-    private Long districtId;
+    private String cityName;
+    private String districtName;
     private String explanation;
 
     public Long getPersonId() {return personId;  }
@@ -49,18 +49,18 @@ public class Person {
         this.mobileNumber = mobileNumber;
     }
 
-    public Integer getCityId() { return cityId; }
+    public String getCityName() { return cityName; }
 
-    public void setCityId(Integer cityId) {
-        this.cityId = cityId;
+    public void setCityName(String cityId) {
+        this.cityName = cityId;
     }
 
-    public Long getDistrictId() {
-        return districtId;
+    public String getDistrictName() {
+        return districtName;
     }
 
-    public void setDistrictId(Long districtId) {
-        this.districtId = districtId;
+    public void setDistrictName(String districtId) {
+        this.districtName = districtId;
     }
 
     public String getExplanation() {
@@ -78,8 +78,8 @@ public class Person {
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", mobileNumber='" + mobileNumber + '\'' +
-                ", cityId=" + cityId +
-                ", districtId=" + districtId +
+                ", cityId=" + cityName +
+                ", districtId=" + districtName +
                 ", explanation='" + explanation + '\'' +
                 '}';
     }

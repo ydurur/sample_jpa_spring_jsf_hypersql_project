@@ -1,11 +1,11 @@
 package com.ydurur.person.bean;
 
-import com.ydurur.person.model.City;
+import com.ydurur.person.model.Person;
+import com.ydurur.person.service.PersonService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.SessionScope;
 
 
-import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.validation.constraints.*;
@@ -23,6 +23,8 @@ import java.util.Map;
 @ViewScoped
 public class PersonRegistrationBean implements Serializable
 {
+    @Autowired
+    PersonService personService;
 
     @NotNull
     @Max(value = 999999999)
@@ -40,60 +42,66 @@ public class PersonRegistrationBean implements Serializable
     @Size(min = 14, max = 14)
     private String mobileNumber;
 
-    private Long districtId;
+    @NotBlank
+    @Size(min = 2, max = 20)
+    private String districtName;
 
     @Size(min = 2, max = 160)
     private String explanation;
 
-    @NotNull
-    @Max(99)
-    private Integer cityId;
+    @NotBlank
+    @Size(min = 2, max = 20)
+    private String cityName;
 
-    private Map<Integer, Map<String,Integer>> data = new HashMap<>();
+    private Map<String, Map<String,String>> data = new HashMap<>();
     private String city;
     private String district;
-    private Map<String, Integer> cities;
-    private Map<String,Integer> districts;
+    private Map<String, String> cities;
+    private Map<String,String> districts;
+
+    private List<Person> personList ;
 
     @PostConstruct
     public void init() {
         {
             cities  = new HashMap<>();
-            cities.put("Ankara", 6);
-            cities.put("İstanbul", 34);
-            cities.put("İzmir", 35);
-            cities.put("Manisa", 45);
+            cities.put("Ankara", "Ankara");
+            cities.put("İstanbul", "İstanbul");
+            cities.put("İzmir", "İzmir");
+            cities.put("Manisa", "Manisa");
 
-            Map<String,Integer> map = new HashMap<>();
-            map.put("Çankaya", 1);
-            map.put("Keçiören", 2);
-            map.put("Sincan",3);
-            data.put(6, map);
-
-            map = new HashMap<>();
-            map.put("Kadiköy", 4);
-            map.put("Tuzla", 5);
-            map.put("Başakşehir", 6);
-            data.put(34, map);
+            Map<String,String> map = new HashMap<>();
+            map.put("Çankaya", "Çankaya");
+            map.put("Keçiören", "Keçiören");
+            map.put("Sincan","Sincan");
+            data.put("Ankara", map);
 
             map = new HashMap<>();
-            map.put("Karşıyaka", 7);
-            map.put("Göztepe", 8);
-            map.put("Güzelbahçe", 9);
-            data.put(35, map);
+            map.put("Kadiköy", "Kadiköy");
+            map.put("Tuzla", "Kadiköy");
+            map.put("Başakşehir", "Kadiköy");
+            data.put("İstanbul", map);
 
             map = new HashMap<>();
-            map.put("Alaybey", 10);
-            map.put("Karaköy", 11);
-            map.put("Kırkağaç", 12);
-            data.put(45, map);
+            map.put("Karşıyaka", "Karşıyaka");
+            map.put("Göztepe", "Karşıyaka");
+            map.put("Güzelbahçe", "Güzelbahçe");
+            data.put("İzmir", map);
+
+            map = new HashMap<>();
+            map.put("Alaybey", "Alaybey");
+            map.put("Karaköy", "Karaköy");
+            map.put("Kırkağaç", "Kırkağaç");
+            data.put("Manisa", map);
+
+            personList = personService.getAllPerson();
         }
 
     }
 
     public void onCityChange() {
-        if(cityId !=null && !cityId.equals(""))
-            districts = data.get(cityId);
+        if(cityName !=null && !cityName.equals(""))
+            districts = data.get(cityName);
         else
             districts = new HashMap<>();
     }
@@ -124,16 +132,16 @@ public class PersonRegistrationBean implements Serializable
         this.mobileNumber = mobileNumber;
     }
 
-    public Integer getCityId() { return cityId;}
+    public String getCityName() { return cityName;}
 
-    public void setCityId(Integer cityId) { this.cityId = cityId;  }
+    public void setCityName(String cityName) { this.cityName = cityName;  }
 
-    public Long getDistrictId() {
-        return districtId;
+    public String getDistrictName() {
+        return districtName;
     }
 
-    public void setDistrictId(Long districtId) {
-        this.districtId = districtId;
+    public void setDistrictName(String districtName) {
+        this.districtName = districtName;
     }
 
     public String getExplanation() {
@@ -148,13 +156,13 @@ public class PersonRegistrationBean implements Serializable
 
     public void setPersonId(Long personId) {   this.personId = personId;  }
 
-    public void setCities(HashMap<String, Integer> cities) {
+    public void setCities(HashMap<String, String> cities) {
         this.cities = cities;
     }
 
-    public Map<Integer, Map<String, Integer>> getData() {return data; }
+    public Map<String, Map<String, String>> getData() {return data; }
 
-    public void setData(Map<Integer, Map<String, Integer>> data) { this.data = data;  }
+    public void setData(Map<String, Map<String, String>> data) { this.data = data;  }
 
     public String getCity() {
         return city;
@@ -172,19 +180,23 @@ public class PersonRegistrationBean implements Serializable
         this.district = district;
     }
 
-    public Map<String, Integer> getCities() {
+    public Map<String, String> getCities() {
         return cities;
     }
 
-    public void setCities(Map<String, Integer> cities) {
+    public void setCities(Map<String, String> cities) {
         this.cities = cities;
     }
 
-    public Map<String, Integer> getDistricts() {
+    public Map<String, String> getDistricts() {
         return districts;
     }
 
-    public void setDistricts(Map<String, Integer> districts) {
+    public void setDistricts(Map<String, String> districts) {
         this.districts = districts;
     }
+
+    public List<Person> getPersonList() {  return personList;  }
+
+    public void setPersonList(List<Person> personList) {   this.personList = personList; }
 }

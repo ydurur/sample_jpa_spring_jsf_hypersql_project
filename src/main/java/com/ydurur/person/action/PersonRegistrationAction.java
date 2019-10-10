@@ -35,56 +35,43 @@ public class PersonRegistrationAction implements Serializable
         return  personList;
     }
 
+    Person person=null;
+
     public void savePerson()
     {
-        Person person = new Person();
-        person.setPersonId(personRegistrationBean.getPersonId());
-        person.setCityId(personRegistrationBean.getCityId());
-        person.setMobileNumber(personRegistrationBean.getMobileNumber());
-        person.setName(personRegistrationBean.getName());
-        person.setSurname(personRegistrationBean.getSurname());
-        person.setDistrictId(personRegistrationBean.getDistrictId());
-        person.setExplanation(personRegistrationBean.getExplanation());
-
-        System.out.println(FacesContext.class.getPackage().getImplementationVersion());
-
+        createPersonObjectFromView();
         personService.addPerson(person);
 
     }
 
+
     public void updatePerson(){
 
-        Person person = new Person();
-        person.setPersonId(personRegistrationBean.getPersonId());
-        person.setCityId(personRegistrationBean.getCityId());
-        person.setMobileNumber(personRegistrationBean.getMobileNumber());
-        person.setName(personRegistrationBean.getName());
-        person.setSurname(personRegistrationBean.getSurname());
-        person.setDistrictId(personRegistrationBean.getDistrictId());
-        person.setExplanation(personRegistrationBean.getExplanation());
-
-        System.out.println(FacesContext.class.getPackage().getImplementationVersion());
-
+        createPersonObjectFromView();
         personService.updatePerson(person);
 
     }
 
     public void deletePerson(){
 
-        Person person = new Person();
-        person.setPersonId(personRegistrationBean.getPersonId());
-        person.setCityId(personRegistrationBean.getCityId());
-        person.setMobileNumber(personRegistrationBean.getMobileNumber());
-        person.setName(personRegistrationBean.getName());
-        person.setSurname(personRegistrationBean.getSurname());
-        person.setDistrictId(personRegistrationBean.getDistrictId());
-        person.setExplanation(personRegistrationBean.getExplanation());
-
-        System.out.println(FacesContext.class.getPackage().getImplementationVersion());
-
+        createPersonObjectFromView();
         personService.deletePerson(person);
 
     }
+
+    private void createPersonObjectFromView() {
+        person = new Person();
+        person.setPersonId(personRegistrationBean.getPersonId());
+        person.setCityName(personRegistrationBean.getCityName());
+        person.setMobileNumber(personRegistrationBean.getMobileNumber());
+        person.setName(personRegistrationBean.getName());
+        person.setSurname(personRegistrationBean.getSurname());
+        person.setDistrictName(personRegistrationBean.getDistrictName());
+        person.setExplanation(personRegistrationBean.getExplanation());
+
+        System.out.println(FacesContext.class.getPackage().getImplementationVersion());
+    }
+
 
 
 
