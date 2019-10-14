@@ -2,13 +2,19 @@ package com.ydurur.person.bean;
 
 import com.ydurur.person.model.Person;
 import com.ydurur.person.service.PersonService;
+import org.primefaces.event.RowEditEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.ViewScoped;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -106,6 +112,38 @@ public class PersonRegistrationBean implements Serializable
             districts = new HashMap<>();
     }
 
+    public void onCityChangeInList(AjaxBehaviorEvent event) {
+        String cityName = event.getComponent().getAttributes().get("citySelect").toString();
+        if(!cityName.equals(null)) {
+            districts = data.get(cityName);
+        } else{
+                districts = new HashMap<>();
+        }
+    }
+
+    public void onRowEditInit(AjaxBehaviorEvent event) {
+        String cityName = event.getComponent().getAttributes().get("citySelectInit").toString();
+        if(!cityName.equals(null)) {
+            districts = data.get(cityName);
+        } else{
+            districts = new HashMap<>();
+        }
+    }
+
+
+    public void onRowEdit(RowEditEvent event){
+
+        Person person = (Person) event.getObject();
+        personService.updatePerson(person);
+        FacesMessage msg = new FacesMessage("Person Edited", ((Person) event.getObject()).getName());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+
+    }
+
+    public void onRowCancel(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Edit Cancelled", ((Person) event.getObject()).getName());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 
 
     public String getName() {

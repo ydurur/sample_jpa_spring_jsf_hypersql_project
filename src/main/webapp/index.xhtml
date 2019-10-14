@@ -6,6 +6,12 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
+<style type="text/css">
+    .ui-row-editor .ui-row-editor-pencil {
+        margin-left:8px;
+    }
+</style>
+
 <h:head>
 
     <meta charset="utf-8"/>
@@ -21,6 +27,8 @@
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
+
+
 </h:head>
 <h:body>
     <div class="container">
@@ -31,11 +39,6 @@
             <div class="panel-body">
 
                 <h:form id="studentRegistrationForm">
-                    <div class="form-group">
-                        <p:messages>
-                            <p:autoUpdate />
-                        </p:messages>
-                    </div>
 
                     <div class="form-group">
                         <label for="idField">Id</label>
@@ -84,7 +87,7 @@
                         <p:inputTextarea class="form-control" id="explanationField" maxlength="160" rows="6" cols="33" required="true" value="#{personRegistrationBean.explanation}" />
                     </div>
 
-                    <h:commandButton type="submit" value="Submit" styleClass="btn btn-primary" action="#{personRegistrationAction.savePerson}" />
+                    <h:commandButton type="submit" value="Submit" styleClass="btn btn-primary" action="#{personRegistrationAction.savePerson}"  />
 
                 </h:form>
 
@@ -99,28 +102,73 @@
         <h2> Student List</h2>
 
         <h:form id="form">
+            <p:growl id="msgs" showDetail="true"/>
 
-            <p:dataTable var="person" value="#{personRegistrationBean.personList}">
+            <p:dataTable var="person" value="#{personRegistrationBean.personList}" editable="true">
+                <f:facet name="header">
+                    Editable SStudent list
+                </f:facet>
+
+                <p:ajax event="rowEdit" listener="#{personRegistrationBean.onRowEdit}" update=":form:msgs"/>
+                <p:ajax event="rowEditCancel" listener="#{personRegistrationBean.onRowCancel}" update=":form:msgs" />
+                <p:ajax event="rowEditInit" listener="#{personRegistrationBean.onRowEditInit}" update="districtSelectvalue"  />
+
+                <f:attribute name="citySelectInit" value="#{person.cityName}"/>
                 <p:column headerText="Id">
-                    <h:outputText value="#{person.personId}" />
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{person.personId}" /></f:facet>
+                        <f:facet name="input"><p:inputText id="IdInput" value="#{person.personId}" style="width:100%"/></f:facet>
+                    </p:cellEditor>
                 </p:column>
 
                 <p:column headerText="Name">
-                    <h:outputText value="#{person.name}" />
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{person.name}" /></f:facet>
+                        <f:facet name="input"><p:inputText id="NameInput" value="#{person.name}" style="width:100%"/></f:facet>
+                    </p:cellEditor>
                 </p:column>
 
                 <p:column headerText="Surname">
-                    <h:outputText value="#{person.surname}" />
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{person.surname}" /></f:facet>
+                        <f:facet name="input"><p:inputText id="SurnameInput" value="#{person.surname}" style="width:100%"/></f:facet>
+                    </p:cellEditor>
                 </p:column>
 
                 <p:column headerText="MobileNumber">
-                    <h:outputText value="#{person.mobileNumber}" />
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{person.mobileNumber}" /></f:facet>
+                        <f:facet name="input"><p:inputText id="MobileNumberInput" value="#{person.mobileNumber}" style="width:100%"/></f:facet>
+                    </p:cellEditor>
                 </p:column>
+
                 <p:column headerText="City">
-                    <h:outputText value="#{person.cityName}" />
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{person.cityName}" /></f:facet>
+                        <f:facet name="input">
+                            <h:selectOneMenu value="#{person.cityName}" style="width:100% ; background-color:darkslateblue">
+                                <f:attribute name="citySelect" value="#{person.cityName}"/>
+                                <p:ajax listener="#{personRegistrationBean.onCityChangeInList}" update="districtSelectvalue" />
+                                <f:selectItems value="#{personRegistrationBean.cities}" var="city" itemLabel="#{city}" itemValue="#{city}" />
+                            </h:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
                 </p:column>
+
                 <p:column headerText="District">
-                    <h:outputText value="#{person.districtName}" />
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{person.districtName}" /></f:facet>
+                        <f:facet name="input">
+                            <h:selectOneMenu id="districtSelectvalue" value="#{person.districtName}" style="width:100%; background-color:darkslategray">
+                                <f:selectItems value="#{personRegistrationBean.districts}" var="district" itemLabel="#{district}" itemValue="#{district}" />
+                            </h:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+
+                </p:column>
+
+                <p:column headerText="Options">
+                    <p:rowEditor />
                 </p:column>
             </p:dataTable>
 

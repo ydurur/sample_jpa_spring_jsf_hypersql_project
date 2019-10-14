@@ -4,6 +4,7 @@ import com.ydurur.person.repository.PersonRepository;
 import com.ydurur.person.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class PersonServiceImpl  implements PersonService
     private List<Person> personList;
 
     @Override
+    @Transactional
     public void addPerson(Person person)
     {
         personRepository.save(person);
@@ -27,12 +29,14 @@ public class PersonServiceImpl  implements PersonService
     }
 
     @Override
+    @Transactional
     public List<Person> getAllPerson() {
         personList = personRepository.findAll();
         return  personList;
     }
 
     @Override
+    @Transactional
     public void updatePerson(Person person) {
         personRepository.save(person);
     }

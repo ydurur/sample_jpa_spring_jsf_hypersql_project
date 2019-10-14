@@ -45,21 +45,7 @@ public class PersonRegistrationAction implements Serializable
     }
 
 
-    public void updatePerson(){
-
-        createPersonObjectFromView();
-        personService.updatePerson(person);
-
-    }
-
-    public void deletePerson(){
-
-        createPersonObjectFromView();
-        personService.deletePerson(person);
-
-    }
-
-    private void createPersonObjectFromView() {
+    public void createPersonObjectFromView() {
         person = new Person();
         person.setPersonId(personRegistrationBean.getPersonId());
         person.setCityName(personRegistrationBean.getCityName());
