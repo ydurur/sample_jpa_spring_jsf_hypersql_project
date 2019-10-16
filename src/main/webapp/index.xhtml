@@ -87,7 +87,9 @@
                         <p:inputTextarea class="form-control" id="explanationField" maxlength="160" rows="6" cols="33" required="true" value="#{personRegistrationBean.explanation}" />
                     </div>
 
-                    <h:commandButton type="submit" value="Submit" styleClass="btn btn-primary" action="#{personRegistrationAction.savePerson}"  />
+                    <p:commandButton value="Submit"  ajax="true" action="#{personRegistrationAction.savePerson()}"  styleClass="btn btn-primary" ></p:commandButton>
+
+
 
                 </h:form>
 
@@ -104,7 +106,7 @@
         <h:form id="form">
             <p:growl id="msgs" showDetail="true"/>
 
-            <p:dataTable var="person" value="#{personRegistrationBean.personList}" editable="true">
+            <p:dataTable  var="person" value="#{personRegistrationBean.personList}" editable="true" selection="#{personRegistrationBean.person}">
                 <f:facet name="header">
                     Editable SStudent list
                 </f:facet>
@@ -114,6 +116,7 @@
                 <p:ajax event="rowEditInit" listener="#{personRegistrationBean.onRowEditInit}" update="districtSelectvalue"  />
 
                 <f:attribute name="citySelectInit" value="#{person.cityName}"/>
+
                 <p:column headerText="Id">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{person.personId}" /></f:facet>
@@ -167,8 +170,11 @@
 
                 </p:column>
 
-                <p:column headerText="Options">
+                <p:column headerText="Edit">
                     <p:rowEditor />
+                </p:column>
+                <p:column headetText="Delete">
+                    <h:commandButton type="submit" value="Delete" styleClass="btn btn-danger" action="#{personRegistrationAction.deletePerson(person.personId)}"  />
                 </p:column>
             </p:dataTable>
 

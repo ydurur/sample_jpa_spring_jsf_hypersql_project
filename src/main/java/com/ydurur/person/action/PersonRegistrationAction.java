@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import java.io.Serializable;
 import java.util.List;
 
@@ -35,13 +36,21 @@ public class PersonRegistrationAction implements Serializable
         return  personList;
     }
 
-    Person person=null;
+    private Person person=null;
+
 
     public void savePerson()
     {
         createPersonObjectFromView();
         personService.addPerson(person);
 
+    }
+
+    public void deletePerson(String Id)
+    {
+        String personId = Id;
+        Person  person = personService.findByPersonId(Long.parseLong(Id));
+        personService.deletePerson(person);
     }
 
 

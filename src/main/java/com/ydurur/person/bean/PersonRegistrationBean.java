@@ -67,6 +67,8 @@ public class PersonRegistrationBean implements Serializable
 
     private List<Person> personList ;
 
+    private Person person ;
+
     @PostConstruct
     public void init() {
         {
@@ -237,4 +239,8 @@ public class PersonRegistrationBean implements Serializable
     public List<Person> getPersonList() {  return personList;  }
 
     public void setPersonList(List<Person> personList) {   this.personList = personList; }
+
+    public Person getPerson() { return person; }
+
+    public void setPerson(Person person) { this.person = person; }
 }
