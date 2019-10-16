@@ -1,7 +1,13 @@
 package com.ydurur.person.model;
 
+import org.hibernate.type.BlobType;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import java.sql.Blob;
+
+
 
 /**
  * @author ydurur
@@ -18,6 +24,8 @@ public class Person {
     private String cityName;
     private String districtName;
     private String explanation;
+    @Lob
+    private byte[] data;
 
     public Long getPersonId() {return personId;  }
 
@@ -69,6 +77,14 @@ public class Person {
 
     public void setExplanation(String explanation) {
         this.explanation = explanation;
+    }
+
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
     }
 
     @Override

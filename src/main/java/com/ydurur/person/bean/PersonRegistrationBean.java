@@ -2,7 +2,9 @@ package com.ydurur.person.bean;
 
 import com.ydurur.person.model.Person;
 import com.ydurur.person.service.PersonService;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.RowEditEvent;
+import org.primefaces.model.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +17,9 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.IOException;
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +63,7 @@ public class PersonRegistrationBean implements Serializable
     @Size(min = 2, max = 20)
     private String cityName;
 
+
     private Map<String, Map<String,String>> data = new HashMap<>();
     private String city;
     private String district;
@@ -68,6 +73,7 @@ public class PersonRegistrationBean implements Serializable
     private List<Person> personList ;
 
     private Person person ;
+    private UploadedFile file;
 
     @PostConstruct
     public void init() {
@@ -146,6 +152,19 @@ public class PersonRegistrationBean implements Serializable
         FacesMessage msg = new FacesMessage("Edit Cancelled", ((Person) event.getObject()).getName());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
+
+
+    public void handleFileUpload(FileUploadEvent event) {
+
+        String personId = event.getComponent().getAttributes().get("personId").toString();
+        Person person = personService.findByPersonId(Long.parseLong(personId));
+        person.setData(event.getFile().getContents());
+        /**
+         * java.sql.SQLDataException: data exception: string data, right truncation data exception: string data, right truncation
+         */
+       // personService.updatePerson(person);
+    }
+
 
 
     public String getName() {
@@ -243,4 +262,8 @@ public class PersonRegistrationBean implements Serializable
     public Person getPerson() { return person; }
 
     public void setPerson(Person person) { this.person = person; }
+
+    public UploadedFile getFile() {return file;    }
+
+    public void setFile(UploadedFile file) { this.file = file; }
 }

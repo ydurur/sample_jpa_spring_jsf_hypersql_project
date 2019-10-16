@@ -87,6 +87,7 @@
                         <p:inputTextarea class="form-control" id="explanationField" maxlength="160" rows="6" cols="33" required="true" value="#{personRegistrationBean.explanation}" />
                     </div>
 
+
                     <p:commandButton value="Submit"  ajax="true" action="#{personRegistrationAction.savePerson()}"  styleClass="btn btn-primary" ></p:commandButton>
 
 
@@ -167,6 +168,14 @@
                             </h:selectOneMenu>
                         </f:facet>
                     </p:cellEditor>
+
+                </p:column>
+
+                <p:column headerText="FileUpload">
+                    <p:fileUpload fileUploadListener="#{personRegistrationBean.handleFileUpload}" mode="advanced" dragDropSupport="false"
+                                  sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" >
+                        <f:attribute name="personId" value="#{person.personId}" />
+                    </p:fileUpload>
 
                 </p:column>
 
