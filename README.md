@@ -1,4 +1,4 @@
-# Sample Project using Spring boot,JSf,Primafaces and HyperSQL
+# Sample Project using Spring boot,JSF,Primafaces and HyperSQL
 
 ## This project is a sample crud functions using JPA and Hypernate.
 This project works on **localhost:5000/index.xhtml**. You can change the port  on **application.properties** file.
